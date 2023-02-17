@@ -1,5 +1,5 @@
-<header class="bg-inherit">
-  <nav class="p-4 w-fullfixed">
+<header class="bg-inherit shadow-sm px-8 z-50">
+  <nav class="p-4 w-full">
     <div
       class="hidden lg:flex lg:items-center lg:text-xl font-medium uppercase"
     >
@@ -17,10 +17,27 @@
           <li><a class="cursor-pointer hover:underline">Kids</a></li>
         </ul>
       </div>
-      <div class="flex gap-10">
-        <button class="hover:underline uppercase">Login</button>
-        <button class="hover:underline uppercase">Signup</button>
-      </div>
+      <ng-container *ngIf="(userName$ | async) != ''; else login">
+        <div>
+          <ul class="flex items-center gap-5">
+            <li class="cursor-pointer" (click)="userInfoModal()">
+              {{ userName$ | async }}
+            </li>
+            <li>
+              <i class="fa-solid fa-cart-shopping text-white text-3xl"></i>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+
+      <ng-template #login>
+        <div class="flex gap-10">
+          <button (click)="toggleLogin()" class="hover:underline uppercase">
+            Login
+          </button>
+          <button class="hover:underline uppercase">Signup</button>
+        </div>
+      </ng-template>
     </div>
     <div class="lg:hidden">
       <svg
@@ -40,3 +57,15 @@
     </div>
   </nav>
 </header>
+
+<!-- Login Component -->
+<div *ngIf="loginModal$ | async">
+  <app-user-login></app-user-login>
+</div>
+
+<!-- User Info Component -->
+<div *ngIf="userInfoModal$ | async">
+  <app-user-info></app-user-info>
+</div>
+
+<app-cart></app-cart>

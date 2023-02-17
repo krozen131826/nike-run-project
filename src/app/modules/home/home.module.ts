@@ -7,9 +7,10 @@ import { MensComponent } from './components/mens/mens.component';
 import { WomensComponent } from './components/womens/womens.component';
 import { KidsComponent } from './components/kids/kids.component';
 import { TopbarModule } from '../shared/topbar/topbar.module';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   declarations: [HomeComponent, MensComponent, WomensComponent, KidsComponent],
-  imports: [CommonModule, HomeRoutingModule, TopbarModule],
+  imports: [CommonModule, HomeRoutingModule, TopbarModule, SwiperModule],
 })
 export class HomeModule {}
