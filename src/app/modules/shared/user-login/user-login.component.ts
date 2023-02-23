@@ -23,8 +23,8 @@ export class UserLoginComponent implements OnInit {
     tap((response) => {
       if (response.success == true) {
         localStorage.setItem('user', JSON.stringify(response.data));
-        this.helperService.userName(response.data.fullName);
         this.helperService.loginModalToggle(false);
+        location.reload();
       }
     })
   );
@@ -41,6 +41,11 @@ export class UserLoginComponent implements OnInit {
 
   public closeLoginModal(): void {
     this.helperService.loginModalToggle(false);
+  }
+
+  public registerModal(): void {
+    this.helperService.loginModalToggle(false);
+    this.helperService.registerModal(true);
   }
 
   public loginUser(): void {

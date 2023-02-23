@@ -1,0 +1,238 @@
+<div
+  class="relative duration-700 z-50"
+  style="font-family: 'Montserrat', sans-serif"
+>
+  <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+  <div class="fixed inset-0 z-50 overflow-y-auto">
+    <div
+      class="flex lg:items-end items-center justify-center lg:p-4 p-1 text-center sm:items-center sm:p-0"
+    >
+      <div
+        class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+      >
+        <div class="bg-white p-2">
+          <div class="flex justify-end p-2">
+            <i
+              (click)="closeRegisterModal()"
+              class="fa-sharp fa-solid fa-xmark text-4xl cursor-pointer"
+            ></i>
+          </div>
+          <div class="flex items-center p-3">
+            <h1 class="text-black text-opacity-60 text-4xl">Register</h1>
+          </div>
+          <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700" />
+          <form
+            [formGroup]="formGroup"
+            (ngSubmit)="registerUser()"
+            class="bg-white rounded px-8"
+          >
+            <div class="lg:flex mb-2">
+              <div class="mb-3 lg:mb-0 lg:mr-2 relative">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="firstName"
+                >
+                  First Name
+                </label>
+                <input
+                  formControlName="firstName"
+                  class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  id="firstName"
+                  type="text"
+                />
+                <i
+                  class="text-xs absolute -bottom-4 lg:-bottom-1 left-0 font-semibold text-red-800"
+                  *ngIf="
+                    form['firstName'].getError('required') != null &&
+                    form['firstName'].touched == true
+                  "
+                >
+                  First Name is Required
+                </i>
+              </div>
+              <div class="relative">
+                <label
+                  class="block text-gray-700 text-sm font-bold mb-2"
+                  for="lastName"
+                >
+                  Last Name
+                </label>
+                <input
+                  formControlName="lastName"
+                  class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                  id="lastName"
+                  type="text"
+                />
+                <i
+                  class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                  *ngIf="
+                    form['lastName'].getError('required') != null &&
+                    form['lastName'].touched == true
+                  "
+                >
+                  Last Name is Required
+                </i>
+              </div>
+            </div>
+            <div class="mb-2 relative">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="address"
+              >
+                Address
+              </label>
+              <textarea
+                cols="3"
+                rows="3"
+                formControlName="address"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="address"
+              ></textarea>
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['address'].getError('required') != null &&
+                  form['address'].touched == true
+                "
+              >
+                Address is Required
+              </i>
+            </div>
+            <div class="mb-2 relative">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="emailAddress"
+              >
+                Email Address
+              </label>
+              <input
+                formControlName="emailAddress"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="emailAddress"
+                type="email"
+              />
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['emailAddress'].getError('required') != null &&
+                  form['emailAddress'].touched == true
+                "
+              >
+                Email Address is Required
+              </i>
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['emailAddress'].getError('email') != null &&
+                  form['emailAddress'].touched == true
+                "
+              >
+                Please Enter Valid Email
+              </i>
+            </div>
+            <div class="mb-2 relative">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="contactNumber"
+              >
+                Contact Number
+              </label>
+              <input
+                formControlName="contactNumber"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="contactNumber"
+                type="text"
+              />
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['contactNumber'].getError('required') != null &&
+                  form['contactNumber'].touched == true
+                "
+              >
+                Contact Number is Required
+              </i>
+            </div>
+
+            <div class="mb-2 relative">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="contactNumber"
+              >
+                Password
+              </label>
+              <input
+                formControlName="password"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="password"
+                type="password"
+              />
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['password'].getError('required') != null &&
+                  form['password'].touched == true
+                "
+              >
+                Password is Required
+              </i>
+            </div>
+            <div class="mb-3 relative">
+              <label
+                class="block text-gray-700 text-sm font-bold mb-2"
+                for="confirmPassword"
+              >
+                Confirm Password
+              </label>
+              <input
+                formControlName="confirmPassword"
+                class="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="confirmPassword"
+                type="password"
+              />
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['confirmPassword'].getError('required') != null &&
+                  form['confirmPassword'].touched == true
+                "
+                >Confirm Password is Required
+              </i>
+              <i
+                class="text-xs absolute -bottom-1 left-0 font-semibold text-red-800"
+                *ngIf="
+                  form['confirmPassword'].getError('MustMatch') != null &&
+                  form['confirmPassword'].touched == true
+                "
+                >Password not matched
+              </i>
+            </div>
+            <div class="flex items-center justify-between">
+              <button
+                [disabled]="!formGroup.valid"
+                ngClass="{{
+                  formGroup.valid
+                    ? 'bg-green-500 cursor-pointer w-full hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                    : 'bg-gray-700 w-full text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                }}"
+                type="submit"
+              >
+                Register
+              </button>
+            </div>
+          </form>
+          <div class="flex gap-5 items-center py-3 px-8">
+            <span class="text-lg font-medium">Don't have an account?</span>
+            <a
+              (click)="loginModal()"
+              class="cursor-pointer hover:underline text-lg text-blue-700 uppercase font-semibold"
+              >Login</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="register$ | async"></ng-container>

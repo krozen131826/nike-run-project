@@ -16,8 +16,10 @@ export class TopbarComponent implements OnInit {
   constructor(private helperService: HelperService) {}
 
   loginModal$ = this.helperService.loginModalObs$;
-  userName$ = this.helperService.userNameObs$;
   userInfoModal$ = this.helperService.userInfoModalObs$;
+  cartModal$ = this.helperService.cartModalObs$;
+  userName$ = this.helperService.userNameObs$;
+  registerModal$ = this.helperService.registerModalObs$;
 
   public toggleLogin() {
     this.helperService.loginModalToggle(true);
@@ -31,6 +33,14 @@ export class TopbarComponent implements OnInit {
 
   public userInfoModal(): void {
     this.helperService.userInfoModal(true);
+  }
+
+  public cartModal(): void {
+    this.helperService.cartModal(true);
+  }
+
+  public registerModal(): void {
+    this.helperService.registerModal(true);
   }
 
   ngOnInit(): void {

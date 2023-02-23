@@ -1,0 +1,69 @@
+<ng-container *ngIf="productDetail$ | async as product">
+  <div class="relative duration-700 z-50">
+    <div
+      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+    ></div>
+
+    <div class="fixed inset-0 z-50 overflow-y-auto">
+      <div
+        class="flex lg:items-end items-center justify-center lg:p-4 p-1 text-center sm:items-center sm:p-0"
+      >
+        <div
+          class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+        >
+          <div class="bg-white p-2">
+            <div class="flex justify-end p-2">
+              <i
+                (click)="closeProductModal()"
+                class="fa-sharp fa-solid fa-xmark opacity-70 text-4xl cursor-pointer"
+              ></i>
+            </div>
+            <div class="flex items-center p-3"></div>
+            <hr class="mb-2" />
+            <h2
+              class="text-center text-2xl lg:text-4xl text-black text-opacity-80 font-semibold"
+            >
+              {{ product.productName }}
+            </h2>
+            <div class="flex justify-center items-center mb-2">
+              <img
+                class="lg:max-w-[250px] max-w-[300px]"
+                src="{{ primaryImage }}"
+                alt=""
+              />
+            </div>
+            <swiper class="mb-2 p-2" #swiper [config]="config">
+              <ng-template
+                *ngFor="let img of product.image"
+                class="flex items-center justify-center"
+                swiperSlide
+              >
+                <div
+                  (click)="selectProd(img.imageLink)"
+                  class="bg-white rounded cursor-pointer"
+                >
+                  <img class="w-full" src="{{ img.imageLink }}" alt="" />
+                </div>
+              </ng-template>
+            </swiper>
+            <div class="p-2">
+              <p class="text-gray-900 text-lg text-opacity-80">
+                {{ product.description }}
+              </p>
+              <span class="text-gray-900 text-2xl text-opacity-90 font-semibold"
+                >$ {{ product.price }}</span
+              >
+            </div>
+            <div class="p-2">
+              <button
+                class="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Add To Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

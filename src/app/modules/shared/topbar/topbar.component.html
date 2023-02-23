@@ -1,16 +1,30 @@
-<header class="bg-inherit shadow-sm px-8 z-50">
+<header class="bg-inherit shadow-sm lg:px-8 z-50">
   <nav class="p-4 w-full">
-    <div
-      class="hidden lg:flex lg:items-center lg:text-xl font-medium uppercase"
-    >
-      <div class="w-20">
+    <div class="flex items-center lg:text-xl font-medium uppercase">
+      <div class="w-20 hidden lg:block">
         <img
           class="w-full"
           src="../../../../assets/image/nike-logo.png"
           alt=""
         />
       </div>
-      <div class="mx-auto">
+      <div class="lg:hidden mr-auto">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-7 h-7 text-white"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"
+          />
+        </svg>
+      </div>
+      <div class="mx-auto hidden lg:block">
         <ul class="flex gap-7">
           <li><a class="cursor-pointer hover:underline">Mens</a></li>
           <li><a class="cursor-pointer hover:underline">Womens</a></li>
@@ -24,7 +38,10 @@
               {{ userName$ | async }}
             </li>
             <li>
-              <i class="fa-solid fa-cart-shopping text-white text-3xl"></i>
+              <i
+                (click)="cartModal()"
+                class="fa-solid fa-cart-shopping text-white text-3xl cursor-pointer"
+              ></i>
             </li>
           </ul>
         </div>
@@ -35,25 +52,11 @@
           <button (click)="toggleLogin()" class="hover:underline uppercase">
             Login
           </button>
-          <button class="hover:underline uppercase">Signup</button>
+          <button (click)="registerModal()" class="hover:underline uppercase">
+            Signup
+          </button>
         </div>
       </ng-template>
-    </div>
-    <div class="lg:hidden">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="w-7 h-7 text-white"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M4 6h16M4 12h8m-8 6h16"
-        />
-      </svg>
     </div>
   </nav>
 </header>
@@ -63,9 +66,31 @@
   <app-user-login></app-user-login>
 </div>
 
+<!-- Register Component -->
+<div *ngIf="registerModal$ | async">
+  <app-user-register></app-user-register>
+</div>
+
 <!-- User Info Component -->
-<div *ngIf="userInfoModal$ | async">
+<div
+  class="fixed top-0 right-0 z-50 w-full"
+  ngClass="{{
+    (userInfoModal$ | async)
+      ? 'translate-y-0 ease-in-out duration-500'
+      : '-translate-y-full ease-in-out duration-500'
+  }}"
+>
   <app-user-info></app-user-info>
 </div>
 
-<app-cart></app-cart>
+<!-- Cart Component -->
+<div
+  class="fixed top-0 right-0 z-50 w-full"
+  ngClass="{{
+    (cartModal$ | async)
+      ? 'translate-x-0 ease-in-out duration-500'
+      : 'translate-x-full ease-in-out duration-500'
+  }}"
+>
+  <app-cart></app-cart>
+</div>

@@ -62,13 +62,8 @@ export class UserInfoComponent implements OnInit {
     localStorage.clear();
   }
 
-  public getUserId() {
-    if (this.userDetails)
-      this.authenticationService.userInfoId(this.userDetails.id);
-  }
-
   ngOnInit(): void {
     this.initializeForms();
-    this.getUserId();
+    this.authenticationService.userInfoId(this.userDetails.id);
   }
 }

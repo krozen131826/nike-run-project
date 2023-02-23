@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Subject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Subject, switchMap } from 'rxjs';
 import { ServiceResponse } from '../interface/service-response.interface';
 import { FormControl } from '@angular/forms';
 
@@ -13,16 +13,30 @@ export class AuthenticationService {
 
   constructor(private httpClient: HttpClient) {}
 
+  // Subjects and BehaviorSubject
   private loginSub$ = new Subject<FormControl>();
   public loginObs$ = this.loginSub$.asObservable();
 
   private userInfoIdSub$ = new BehaviorSubject<number>(0);
   public userInfoIdObs$ = this.userInfoIdSub$.asObservable();
 
+  private registerUserSub$ = new Subject<FormControl>();
+  public registerUserObs$ = this.registerUserSub$.asObservable();
+
+  // API Calls
   public login$ = this.loginObs$.pipe(
     switchMap((creds) =>
       this.httpClient.post<ServiceResponse>(
         this.apiUrl + '/api/auth/login',
+        JSON.stringify(creds)
+      )
+    )
+  );
+
+  public register$ = this.registerUserObs$.pipe(
+    switchMap((creds) =>
+      this.httpClient.post<ServiceResponse>(
+        this.apiUrl + '/api/auth/register',
         JSON.stringify(creds)
       )
     )
@@ -40,6 +54,10 @@ export class AuthenticationService {
 
   public userLogin(creds: FormControl) {
     this.loginSub$.next(creds);
+  }
+
+  public userRegister(creds: FormControl) {
+    this.registerUserSub$.next(creds);
   }
 
   public userInfoId(userId: number): void {

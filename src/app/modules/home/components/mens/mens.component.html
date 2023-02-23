@@ -2,57 +2,79 @@
   class="bg-gradient-to-tr from-stone-500 via-sky-400 to-blue-700 lg:h-screen"
 >
   <app-topbar></app-topbar>
-
-  <div class="w-full flex z-10 mt-5">
+  <div class="w-full flex mt-5">
     <div class="lg:w-6/12 lg:flex lg:items-center lg:justify-center hidden">
       <img class="" src="../../../../../assets/image/running-man2.png" alt="" />
     </div>
-    <div
-      class="lg:w-5/12 p-5 w-full bg-white bg-opacity-20 backdrop-blur-md rounded drop-shadow-lg"
-    >
-      <div class="lg:flex lg:items-center lg:justify-center">
-        <div class="lg:w-6/12 w-full">
-          <img
-            class="h-[300px] lg:h-full mx-auto"
-            src="../../../../../assets/image/Nike Winflo 8-1.png"
-            alt=""
-          />
+    <ng-container *ngIf="products$ | async as product">
+      <div
+        class="lg:w-5/12 p-5 w-full bg-white bg-opacity-20 backdrop-blur-md rounded drop-shadow-lg"
+      >
+        <div class="lg:flex lg:items-center lg:justify-center">
+          <div class="lg:w-5/12 w-full">
+            <img
+              class="h-[300px] lg:h-full mx-auto"
+              src="{{ productInit.image[0].imageLink }}"
+              alt=""
+            />
+          </div>
+          <div class="lg:w-7/12 w-full flex flex-col justify-center lg:p-3">
+            <h1 class="text-4xl text-black text-opacity-70 mb-5">
+              {{ productInit.productName }}
+            </h1>
+            <p class="w-full text-lg mb-5">
+              {{ productInit.description }}
+            </p>
+            <span class="text-2xl font-semibold mb-5"
+              >$ {{ productInit.price }}</span
+            >
+
+            <button
+              (click)="productDetail(productInit)"
+              class="px-10 py-4 text-xl font-semibold text-center text-white transition duration-300 rounded-lg hover:from-blue-800 hover:to-sky-600 ease bg-gradient-to-br from-red-500 to-pink-700 md:w-auto"
+            >
+              Details
+            </button>
+          </div>
         </div>
-        <div class="lg:w-6/12 w-full flex flex-col justify-center lg:p-3">
-          <h1 class="text-5xl text-black text-opacity-70 mb-2">
-            Nike Winflo 8
-          </h1>
-          <p class="lg:w-3/4 w-full text-lg mb-2">
-            If running is a daily habit, you need support to match your speed.
-            The Nike Winflo 8 brings back the cushioning you love and pairs it
-            with details like a translucent upper and Flywire technology for a
-            snug, stable fit for long road runs.
-          </p>
-          <span class="text-2xl font-semibold mb-5">$ 8500</span>
-          <button
-            class="px-10 py-4 text-xl font-semibold text-center text-white transition duration-300 rounded-lg hover:from-blue-800 hover:to-sky-600 ease bg-gradient-to-br from-red-500 to-pink-700 md:w-auto"
-          >
-            Details
+
+        <div class="flex items-center p-3 w-full mt-10">
+          <button (click)="slidePrev()">
+            <i
+              class="fa-solid fa-chevron-left text-blue-900 text-3xl lg:text-5xl mr-2"
+            ></i>
+          </button>
+
+          <swiper #swiper [config]="config">
+            <ng-template
+              *ngFor="let data of product"
+              class="flex items-center justify-center"
+              swiperSlide
+            >
+              <div
+                (click)="selectProd(data)"
+                class="bg-white rounded xl:px-10 md:px-6 cursor-pointer"
+              >
+                <img
+                  class="w-full"
+                  src="{{ data.image[0].imageLink }}"
+                  alt=""
+                />
+              </div>
+            </ng-template>
+          </swiper>
+
+          <button (click)="slideNext()">
+            <i
+              class="ml-2 fa-solid fa-chevron-right text-blue-900 text-3xl lg:text-5xl"
+            ></i>
           </button>
         </div>
       </div>
-      <div class="flex items-center p-5 w-full">
-        <button (click)="slidePrev()">
-          <i class="fa-solid fa-chevron-left text-blue-900 text-2xl"></i>
-        </button>
-        <swiper #swiper [config]="config">
-          <ng-template
-            class="flex items-center justify-center"
-            swiperSlide
-            *ngFor="let item of data"
-            ><img class="w-20" src="{{ item.image }}" alt=""
-          /></ng-template>
-        </swiper>
-
-        <button (click)="slideNext()">
-          <i class="fa-solid fa-chevron-right text-blue-900 text-2xl"></i>
-        </button>
-      </div>
-    </div>
+    </ng-container>
   </div>
 </section>
+
+<ng-container *ngIf="productDetailModal$ | async">
+  <app-product-details></app-product-details>
+</ng-container>
