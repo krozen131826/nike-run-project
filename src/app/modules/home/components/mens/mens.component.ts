@@ -5,7 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { ProductInterface } from 'src/app/modules/shared/interface/product.interface';
+import { ProductInterface } from 'src/app/modules/shared/interface/products/product.interface';
 import { HelperService } from 'src/app/modules/shared/service/helper.service';
 import { ProductService } from 'src/app/modules/shared/service/product.service';
 import { SwiperOptions } from 'swiper';

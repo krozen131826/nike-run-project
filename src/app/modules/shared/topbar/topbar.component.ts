@@ -27,7 +27,7 @@ export class TopbarComponent implements OnInit {
 
   private setUserInfo(): void {
     if (this.userDetails != null) {
-      this.helperService.userName(this.userDetails.fullName);
+      this.helperService.userName(this.userDetails.userName);
     }
   }
 

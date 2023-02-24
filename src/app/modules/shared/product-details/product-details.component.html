@@ -40,9 +40,13 @@
               >
                 <div
                   (click)="selectProd(img.imageLink)"
-                  class="bg-white rounded cursor-pointer"
+                  class="bg-white rounded cursor-pointer p-1"
                 >
-                  <img class="w-full" src="{{ img.imageLink }}" alt="" />
+                  <img
+                    class="w-full hover:scale-125 ease-in-out duration-300"
+                    src="{{ img.imageLink }}"
+                    alt=""
+                  />
                 </div>
               </ng-template>
             </swiper>

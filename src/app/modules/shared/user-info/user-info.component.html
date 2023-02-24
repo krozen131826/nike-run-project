@@ -108,6 +108,7 @@
             </div>
             <div class="lg:flex lg:items-center lg:justify-between">
               <button
+                (click)="saveUserInfo()"
                 class="bg-blue-500 lg:mr-2 mb-2 lg:mb-0 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="submit"
               >
@@ -128,3 +129,4 @@
   </div>
 </div>
 <ng-container *ngIf="userInfo$ | async"></ng-container>
+<ng-container *ngIf="update$ | async"></ng-container>

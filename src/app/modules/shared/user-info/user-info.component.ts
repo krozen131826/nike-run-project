@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
+import { UserInfoUpdateInterface } from '../interface/userinfo/userinfo-update.interface';
 import { AuthenticationService } from '../service/authentication.service';
 import { HelperService } from '../service/helper.service';
 
@@ -23,6 +24,7 @@ export class UserInfoComponent implements OnInit {
   userInfo$ = this.authenticationService.userInfo$.pipe(
     tap((response) => {
       this.formGroup.patchValue({
+        id: response.data.id,
         firstName: response.data.firstName,
         lastName: response.data.lastName,
         address: response.data.address,
@@ -32,10 +34,13 @@ export class UserInfoComponent implements OnInit {
     })
   );
 
+  update$ = this.authenticationService.updateUserInfo$;
+
   formGroup!: FormGroup;
 
   public initializeForms(): void {
     this.formGroup = this.formBuilder.group({
+      id: [0],
       firstName: ['', Validators.compose([Validators.required])],
       lastName: ['', Validators.compose([Validators.required])],
       address: ['', Validators.compose([Validators.required])],
@@ -60,6 +65,41 @@ export class UserInfoComponent implements OnInit {
   public logout(): void {
     location.reload();
     localStorage.clear();
+  }
+
+  public saveUserInfo(): void {
+    const userInfoToUpdate: UserInfoUpdateInterface[] = [
+      {
+        op: 'replace',
+        path: '/firstname',
+        value: this.formGroup.get('firstName')?.value,
+      },
+      {
+        op: 'replace',
+        path: '/lastname',
+        value: this.formGroup.get('lastName')?.value,
+      },
+      {
+        op: 'replace',
+        path: '/address',
+        value: this.formGroup.get('address')?.value,
+      },
+      {
+        op: 'replace',
+        path: '/emailaddress',
+        value: this.formGroup.get('emailAddress')?.value,
+      },
+      {
+        op: 'replace',
+        path: '/contactnumber',
+        value: this.formGroup.get('contactNumber')?.value,
+      },
+    ];
+
+    this.authenticationService.userUpdate(
+      this.formGroup.get('id')?.value,
+      userInfoToUpdate
+    );
   }
 
   ngOnInit(): void {
