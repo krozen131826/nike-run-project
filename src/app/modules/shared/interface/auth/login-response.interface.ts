@@ -1,5 +1,5 @@
 export interface LoginResponseInterface {
-  token: string;
-  refreshToken: string;
-  userName: string;
+  Id: number;
+  FullName: string;
+  Token: string;
 }

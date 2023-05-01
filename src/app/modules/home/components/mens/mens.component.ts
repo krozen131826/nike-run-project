@@ -26,11 +26,9 @@ export class MensComponent implements OnInit {
 
   products$ = this.productService.products$.pipe(
     tap((data) => {
-      console.log(data)
       this.productInit = {
         ...data[0],
         image: data[0].image,
-        productDetails: data[0].productDetails,
       };
     })
   );
@@ -45,6 +43,8 @@ export class MensComponent implements OnInit {
     pagination: { clickable: true },
     scrollbar: { draggable: true },
   };
+
+  userName$ = this.helperService.userNameObs$;
 
   slideNext() {
     this.swiper.swiperRef.slideNext(500);

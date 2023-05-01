@@ -22,9 +22,7 @@ export class UserLoginComponent implements OnInit {
   login$ = this.authenticationService.login$.pipe(
     tap((response) => {
       if (response.success == true) {
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('refreshToken', response.data.refreshToken);
-        localStorage.setItem('userName', response.data.userName);
+        localStorage.setItem('user', JSON.stringify(response.data));
         this.helperService.loginModalToggle(false);
         location.reload();
       }

@@ -18,6 +18,9 @@ export class UserInfoComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {}
 
+  private user: any = localStorage.getItem('user');
+  private userDetails = JSON.parse(this.user);
+
   userInfo$ = this.authenticationService.userInfo$.pipe(
     tap((response) => {
       this.formGroup.patchValue({
@@ -101,5 +104,6 @@ export class UserInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForms();
+    this.authenticationService.userInfoId(this.userDetails.id);
   }
 }
