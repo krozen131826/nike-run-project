@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, filter, map, Subject, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  filter,
+  map,
+  shareReplay,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ProductInterface } from '../interface/products/product.interface';
 import { ServiceResponseInterface } from '../interface/service-response/service-response.interface';
 
@@ -21,15 +29,16 @@ export class ProductService {
   public products$ = this.productCategoryObs$.pipe(
     switchMap((cat) => {
       return this.httpClient
-        .get<ServiceResponseInterface<ProductInterface[]>>(
-          this.apiUrl + '/api/Product/list'
+        .get<ProductInterface[]>(
+          this.apiUrl + '/api/Products/list'
         )
         .pipe(
           map((res) => {
-            return res.data.filter((d: ProductInterface) => d.category == cat);
+            return res.filter((d: ProductInterface) => d.category === cat);
           })
         );
-    })
+    }),
+    shareReplay(1)
   );
 
   // Action Section

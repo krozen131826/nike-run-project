@@ -1,4 +1,4 @@
-<ng-container *ngIf="productDetail$ | async as product">
+<ng-container *ngIf="vm$ | async as prodData">
   <div class="relative duration-700 z-50">
     <div
       class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
@@ -23,7 +23,7 @@
             <h2
               class="text-center text-2xl lg:text-4xl text-black text-opacity-80 font-semibold"
             >
-              {{ product.productName }}
+              {{ prodData.productDetail.productName }}
             </h2>
             <div class="flex justify-center items-center mb-2">
               <img
@@ -34,7 +34,7 @@
             </div>
             <swiper class="mb-2 p-2" #swiper [config]="config">
               <ng-template
-                *ngFor="let img of product.image"
+                *ngFor="let img of prodData.productDetail.image"
                 class="flex items-center justify-center"
                 swiperSlide
               >
@@ -50,17 +50,57 @@
                 </div>
               </ng-template>
             </swiper>
-            <div class="p-2">
-              <p class="text-gray-900 text-lg text-opacity-80">
-                {{ product.description }}
-              </p>
-              <span class="text-gray-900 text-2xl text-opacity-90 font-semibold"
-                >$ {{ product.price }}</span
+            <div class="p-2 flex flex-col gap-2">
+              <span
+                class="text-gray-900 text-2xl text-opacity-90 font-semibold"
               >
+                $ {{ prodData.productDetail.productDetails[0].price }}
+              </span>
+              <select
+                [(ngModel)]="productToCart.size"
+                class="block w-1/4 p-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option disabled selected hidden>
+                  {{ productToCart.size }}
+                </option>
+                <option
+                  *ngFor="let data of prodData.productDetail.productDetails"
+                >
+                  {{ data.size }}
+                </option>
+              </select>
+              <div class="p-1 flex items-center gap-2">
+                <button
+                  [disabled]="productToCart.quantity <= 0"
+                  ngClass="{{
+                    productToCart.quantity <= 0
+                      ? 'text-gray-400 hover:cursor-not-allowed'
+                      : 'text-black'
+                  }}"
+                  (click)="minusQuantity()"
+                >
+                  <i class="fa-solid fa-minus text-2xl"></i>
+                </button>
+                <input
+                  [(ngModel)]="productToCart.quantity"
+                  class="shadow-sm appearance-none border text-center rounded w-10 p-1 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  type="number"
+                  (keyup)="onChange($event)"
+                />
+                <button (click)="addQuantity()">
+                  <i class="fa-solid fa-plus text-2xl"></i>
+                </button>
+              </div>
             </div>
             <div class="p-2">
               <button
-                class="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                [disabled]="productToCart.quantity <= 0"
+                (click)="addToCart(prodData.productDetail, productToCart)"
+                ngClass="{{
+                  productToCart.quantity <= 0
+                    ? 'bg-gray-500 w-full hover:bg-gray-500 hover:cursor-not-allowed text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                    : 'bg-blue-500 w-full hover:bg-blue-700 hover:cursor-pointer text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                }}"
               >
                 Add To Cart
               </button>
@@ -71,3 +111,5 @@
     </div>
   </div>
 </ng-container>
+
+<ng-container *ngIf="addToCart$ | async"></ng-container>

@@ -31,7 +31,7 @@
           <li><a class="cursor-pointer hover:underline">Kids</a></li>
         </ul>
       </div>
-      <ng-container *ngIf="(userName$ | async) != ''; else login">
+      <ng-container *ngIf="(userName$ | async) != null; else login">
         <div>
           <ul class="flex items-center gap-5">
             <li class="cursor-pointer" (click)="userInfoModal()">

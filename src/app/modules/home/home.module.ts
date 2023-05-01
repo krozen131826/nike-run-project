@@ -12,6 +12,12 @@ import { ProductDetailsModule } from '../shared/product-details/product-details.
 
 @NgModule({
   declarations: [HomeComponent, MensComponent, WomensComponent, KidsComponent],
-  imports: [CommonModule, HomeRoutingModule, TopbarModule, SwiperModule, ProductDetailsModule],
+  imports: [
+    CommonModule,
+    HomeRoutingModule,
+    TopbarModule,
+    SwiperModule,
+    ProductDetailsModule,
+  ],
 })
 export class HomeModule {}

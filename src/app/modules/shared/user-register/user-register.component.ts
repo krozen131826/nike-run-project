@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
+import { RegisterInterface } from '../interface/auth/register.interface';
 import { AuthenticationService } from '../service/authentication.service';
 import { HelperService } from '../service/helper.service';
 

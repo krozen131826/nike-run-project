@@ -1,13 +1,23 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Subject, switchMap, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  Observable,
+  of,
+  Subject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { ServiceResponseInterface } from '../interface/service-response/service-response.interface';
 import { FormControl } from '@angular/forms';
 import { UserDetailsInterface } from '../interface/userinfo/user-details.interface';
 import { LoginResponseInterface } from '../interface/auth/login-response.interface';
 import { RegisterResponseInterface } from '../interface/auth/register-response.interface';
 import { UserInfoUpdateInterface } from '../interface/userinfo/userinfo-update.interface';
+import { LocalStrorageService } from 'src/app/local-strorage.service';
+import { TokenRequestInterface } from '../interface/auth/token-request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +25,19 @@ import { UserInfoUpdateInterface } from '../interface/userinfo/userinfo-update.i
 export class AuthenticationService {
   private apiUrl: string = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(
+    private httpClient: HttpClient,
+    private localStorageService: LocalStrorageService
+  ) {}
 
   // Subjects and BehaviorSubject
   private loginSub$ = new Subject<FormControl>();
   public loginObs$ = this.loginSub$.asObservable();
 
-  private userInfoIdSub$ = new BehaviorSubject<number>(0);
-  public userInfoIdObs$ = this.userInfoIdSub$.asObservable();
+  private tokenRequestSub$ = new BehaviorSubject<TokenRequestInterface>(
+    {} as TokenRequestInterface
+  );
+  public tokenRequestObs$ = this.tokenRequestSub$.asObservable();
 
   private registerUserSub$ = new Subject<FormControl>();
   public registerUserObs$ = this.registerUserSub$.asObservable();
@@ -52,13 +67,9 @@ export class AuthenticationService {
     )
   );
 
-  public userInfo$ = this.userInfoIdObs$.pipe(
-    switchMap((userId) => {
-      return this.httpClient.get<
-        ServiceResponseInterface<UserDetailsInterface>
-      >(this.apiUrl + '/api/auth/user/' + userId);
-    })
-  );
+  public userInfo$ = this.httpClient.get<
+    ServiceResponseInterface<UserDetailsInterface>
+  >(this.apiUrl + '/api/auth/user/');
 
   public updateUserInfo$ = this.userInfoUpdateObs$.pipe(
     switchMap((user) => {
@@ -68,6 +79,14 @@ export class AuthenticationService {
         this.apiUrl + '/api/userinfo/update/' + user.id,
         JSON.stringify(user.userInfo)
       );
+    })
+  );
+
+  public tokenRequest$ = this.tokenRequestObs$.pipe(
+    switchMap((token) => {
+      return this.httpClient.post<
+        ServiceResponseInterface<TokenRequestInterface>
+      >(this.apiUrl + '/api/auth/verify', JSON.stringify(token));
     })
   );
 
@@ -81,12 +100,12 @@ export class AuthenticationService {
     this.registerUserSub$.next(creds);
   }
 
-  public userInfoId(userId: number): void {
-    this.userInfoIdSub$.next(userId);
-  }
-
   public userUpdate(userId: number, userInfo: UserInfoUpdateInterface[]): void {
     let forUpdate = { id: userId, userInfo: userInfo };
     this.userInfoUpdateSub$.next(forUpdate);
+  }
+
+  public tokenVerify(token: TokenRequestInterface): void {
+    this.tokenRequestSub$.next(token);
   }
 }
